@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use function foo\func;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -25,6 +26,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::guessPolicyNamesUsing(function($class){
+            return '\\App\\Policies\\'.class_basename($class).'Policy';
+        });
     }
 }
