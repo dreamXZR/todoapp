@@ -16,6 +16,7 @@ Route::get('/', 'PagesController@root')->name('root');
 Auth::routes(['verify' => true]);
 
 Route::get('products', 'ProductsController@index')->name('products.index');
+Route::get('products/{product}', 'ProductsController@show')->name('products.show');
 Route::redirect('/', '/products')->name('root');
 
 Route::group(['middleware'=>['auth','verified']],function (){
