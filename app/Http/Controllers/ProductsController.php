@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidRequestException;
+use App\Models\Category;
 use App\Models\Product;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request,CategoryService $categoryService)
     {
         $builder=Product::query()->where('on_sale',true);
 
@@ -33,9 +35,22 @@ class ProductsController extends Controller
             }
         }
 
+        if($request->input('category_id') && $category=Category::find($request->input('category_id'))){
+            if($category->is_directory){
+                $builder->whereHas('category',function ($query) use($category){
+                    $query->where('path', 'like', $category->path.$category->id.'-%');
+                });
+            }else{
+                $builder->where('category_id',$category->id);
+            }
+        }
+
         $products = $builder->paginate(16);
 
-        return view('products.index', ['products' => $products]);
+        return view('products.index', [
+            'products' => $products,
+            'category' => $category ?? null,
+        ]);
     }
 
     public function show(Product $product,Request $request)
