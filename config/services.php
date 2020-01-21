@@ -30,4 +30,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'laravel-shop' => [
+        'appid' => env('CLIENT_ID'),
+        'secret' => env('CLIENT_SECRET'),
+        'callback' => 'http://laravel-xshop.test/auth/callback'
+    ]
+
 ];

@@ -5,6 +5,7 @@ namespace App\Providers;
 use function foo\func;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -29,5 +30,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::guessPolicyNamesUsing(function($class){
             return '\\App\\Policies\\'.class_basename($class).'Policy';
         });
+
+        // API 认证路由注册
+        Passport::routes();
     }
 }

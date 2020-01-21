@@ -105,4 +105,6 @@ class PaymentController extends Controller
 
         return app('wechat_pay')->success();
     }
+
+
 }
